@@ -17,14 +17,15 @@ def main():
 
     mensaje = MIMEText(data)
     mensaje.set_type('text/plain')
-    mensaje['Subject'] = data[0]
+    mensaje['Subject'] = "Hola"
 
     d_list = open('dest.txt', 'r').readlines()
     m_cont = MailCont(d_list)
-    data = open('acount.txt', 'r').readlines()
+    data = open('acounts.txt', 'r').readlines()
     acounts = []
     for line in data:
-        user, pswr, server, port = line.split()
+        line = line.replace("\n", "")
+        user, pswr, serv, port = line.split()
         acounts.append(MailSender(user, pswr, serv, port, m_cont, mensaje))
 
     #enviar

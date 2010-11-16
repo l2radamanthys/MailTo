@@ -45,7 +45,7 @@ class EMailAccount:
         mensaje['To'] = address #destinatario
         #mensaje['From'] = self.addres #envia
         #mensaje['Subject'] = asunto #asunto
-        self.__server.sendmail(self.addres, address, mensaje.as_string())
+        self.__server.sendmail(self.__user, address, mensaje.as_string())
 
 
     def get_user(self):
