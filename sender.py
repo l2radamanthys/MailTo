@@ -7,6 +7,7 @@ from threading import Thread, Semaphore
 from random import random
 
 from mail import EMailAccount
+from utils import account_load
 from constantes import *
 
 
@@ -37,14 +38,20 @@ class MailSender(Thread):
     def __init__(self, user, pswr, serv, port, cont, msj):
         Thread.__init__(self)
         self.account = EMailAccount(user, pswr)
-        self.m_cont = cont #contenedor con los dest
-        self.enable = True
+        self.m_cont = cont #apuntador al contenedor con los dest
+        self.enable = False
         self.id = MailSender.id
         MailSender.id += 1
         self.msj = msj
 
-        self.account.connect(serv, port)
-        print "HILO %d ACOUNT %s CONECTADO" %(self.id, self.account.get_user())
+        #conecion automatica
+        try:
+            self.account.connect(serv, port)
+            print "HILO %d ACOUNT %s CONECTADO" %(self.id, self.account.get_user())
+            self.enable = True
+        except:
+            print "ERROR FALLO CONECION %s" %self.account.get_user()
+            self.enable = False
 
 
     def run(self):

@@ -9,26 +9,27 @@ from sender import MailCont, MailSender
 
 
 def main():
-    #esta incompleto este es solo para probar
-    #
+    #esta incompleto este es solo pla version base
     file = open('msj.txt', 'r')
     data = file.read()
     file.close()
 
-    mensaje = MIMEText(data)
+    mensaje = MIMEText(data[1:])
     mensaje.set_type('text/plain')
-    mensaje['Subject'] = "Hola"
+    mensaje['Subject'] = data[0]
 
     d_list = open('dest.txt', 'r').readlines()
     m_cont = MailCont(d_list)
-    data = open('acounts.txt', 'r').readlines()
-    acounts = []
-    for line in data:
-        line = line.replace("\n", "")
-        user, pswr, serv, port = line.split()
-        acounts.append(MailSender(user, pswr, serv, port, m_cont, mensaje))
 
-    #enviar
+    acounts = []
+    for obj in account_load():
+        user, pswr serve_name = obj
+        smtp_server, port, use_ssl = ACCOUNT_CONECTIONS[server]
+        m_sender = MailSender(user, pswr, smtp_server, int(port), m_cont, mensaje)
+        acounts.append(m_sender)
+        del m_sender
+
+    #comenzar envio
     for acount in acounts:
         acount.start()
 

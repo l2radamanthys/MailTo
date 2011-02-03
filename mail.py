@@ -28,6 +28,8 @@ class EMailAccount:
             self.__server.ehlo()
             self.__server.starttls()
             self.__server.ehlo()
+        else:
+            pass
         self.__server.login(self.__user, self.__pswr)
 
 
@@ -41,11 +43,18 @@ class EMailAccount:
         self.__server.sendmail(from_adress, to_adress, mensaje.as_string())
 
 
-    def send(self, address, mensaje):
+    def send(self, address='', mensaje=None, asunto=''):
         mensaje['To'] = address #destinatario
-        #mensaje['From'] = self.addres #envia
-        #mensaje['Subject'] = asunto #asunto
+        mensaje['From'] = address #envia
+        mensaje['Subject'] = asunto #asunto
         self.__server.sendmail(self.__user, address, mensaje.as_string())
+
+
+    def send_str(self, address='', mensaje=''):
+        """
+            Envia un mensaje q solo contiene un cadena de texto
+        """
+        self.__server.sendmail(self.__user, address, mensaje)
 
 
     def get_user(self):
