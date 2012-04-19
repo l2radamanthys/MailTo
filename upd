@@ -1,6 +1,0 @@
-#!/bin/sh
-
-#actualiza con el repositorio principal
-git pull origin master
-
-
