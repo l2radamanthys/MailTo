@@ -34,10 +34,10 @@ class MailCont:
 
 class MailSender(Thread):
     id = 0
-    def __init__(self, user, pswr, serv, port, cont, msj):
+    def __init__(self, user='', pswr='', serv='', port='25', ssl=False, cont=None, msj=''):
         Thread.__init__(self)
-        self.account = EMailAccount(user, pswr)
-        self.m_cont = cont #contenedor con los dest
+        self.account = EMailAccount(user, pswr, ssl)
+        self.m_cont = cont #apuntador al contenedor con los dest
         self.enable = True
         self.id = MailSender.id
         MailSender.id += 1
@@ -54,7 +54,7 @@ class MailSender(Thread):
             self.account.send(dest, self.msj)
             print "HILO %d MSJ ENVIADO A %s" %(self.id, dest)
             msj_cont += 1
-            time.sleep(random())
+            time.sleep(random()*100)
             if msj_cont % MAX_SEND == 0:
                 print "DURMIENDO HILO ",self.id
                 time.sleep(USER_DELAY)

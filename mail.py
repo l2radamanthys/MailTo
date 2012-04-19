@@ -28,24 +28,30 @@ class EMailAccount:
             self.__server.ehlo()
             self.__server.starttls()
             self.__server.ehlo()
+        else:
+            pass
         self.__server.login(self.__user, self.__pswr)
 
 
-    def send_one(self, from_addres='', to_adress='', asunto='', mensaje=None):
+    def send_one(self, from_address='', to_address='', asunto='', mensaje=None):
         """
             Envia un mensaje particular
         """
-        mensaje['To'] = to_adress
-        mensaje['From'] = from_addres
+        mensaje['To'] = to_address
+        mensaje['From'] = from_address
         mensaje['Subject'] = asunto
-        self.__server.sendmail(from_adress, to_adress, mensaje.as_string())
+        self.__server.sendmail(from_address, to_address, mensaje.as_string())
 
 
-    def send(self, address, mensaje):
+    def send(self, address, mensaje, asunto=''):
         mensaje['To'] = address #destinatario
-        #mensaje['From'] = self.addres #envia
-        #mensaje['Subject'] = asunto #asunto
+        mensaje['From'] = address #envia
+        mensaje['Subject'] = asunto #asunto
         self.__server.sendmail(self.__user, address, mensaje.as_string())
+
+
+    def send_str(self, address='', mensaje=''):
+        self.__server.sendmail(self.__user, address, mensaje)
 
 
     def get_user(self):

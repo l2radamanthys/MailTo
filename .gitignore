@@ -1,2 +1,7 @@
-*.txt
 *.pyc
+*.txt
+*.bat
+*.dat
+*log.py
+/nbproject
+/data
